@@ -1,12 +1,11 @@
 {
   "name": "Minhas Despesas",
   "short_name": "Despesas",
-  "description": "Controle suas despesas de forma simples e rápida 💖",
+  "description": "Aplicativo PWA para controle de despesas pessoais.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffe6f2",
-  "theme_color": "#d63384",
-  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
   "icons": [
     {
       "src": "icons/icon-192.png",
