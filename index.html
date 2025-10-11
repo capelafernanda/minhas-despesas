@@ -1,53 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minhas Despesas</title>
-
-  <!-- Manifest do PWA -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Ícone para Chrome/Android -->
-  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
-
-  <!-- Tema e cores -->
-  <meta name="theme-color" content="#4CAF50">
-  <meta name="description" content="Aplicativo PWA para controle de despesas pessoais.">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icon-192.png" />
+  <meta name="theme-color" content="#ff66b3" />
 </head>
 <body>
   <h1>Minhas Despesas</h1>
 
-  <div id="app">
-    <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" placeholder="Digite a despesa">
-
-    <label for="valor">Valor:</label>
-    <input type="number" id="valor" placeholder="Digite o valor">
-
-    <label for="mes">Mês:</label>
-    <input type="text" id="mes" placeholder="Digite o mês">
-
+  <div class="card">
+    <input id="descricao" type="text" placeholder="Descrição" />
+    <input id="valor" type="number" placeholder="Valor (R$)" />
+    <input id="mes" type="month" />
     <button id="adicionar">Adicionar</button>
-
-    <h2>Lista de Despesas</h2>
-    <ul id="lista"></ul>
   </div>
 
-  <!-- JS -->
-  <script src="script.js"></script>
+  <h3>Filtrar por mês:</h3>
+  <input id="filtroMes" type="month" />
 
-  <!-- Service Worker -->
+  <ul id="lista"></ul>
+
+  <h2 id="total"></h2>
+
+  <script src="script.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(reg => console.log('Service Worker registrado:', reg))
-          .catch(err => console.log('Erro ao registrar Service Worker:', err));
-      });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then(() => console.log("Service Worker registrado com sucesso!"))
+        .catch((error) => console.log("Erro ao registrar Service Worker:", error));
     }
   </script>
 </body>

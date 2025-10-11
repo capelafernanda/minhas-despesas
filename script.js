@@ -4,146 +4,84 @@ const mesInput = document.getElementById("mes");
 const filtroMesInput = document.getElementById("filtroMes");
 const botaoAdicionar = document.getElementById("adicionar");
 const lista = document.getElementById("lista");
-const totalSpan = document.getElementById("total");
-const ctx = document.getElementById("grafico").getContext("2d");
+const total = document.getElementById("total");
 
 let despesas = JSON.parse(localStorage.getItem("despesas")) || [];
-let editandoId = null;
-let grafico;
 
-// Atualiza gráfico
-function atualizarGrafico() {
-  const totaisPorMes = {};
-
-  despesas.forEach((d) => {
-    if (!totaisPorMes[d.mes]) totaisPorMes[d.mes] = 0;
-    totaisPorMes[d.mes] += d.valor;
-  });
-
-  const meses = Object.keys(totaisPorMes).sort();
-  const valores = meses.map((m) => totaisPorMes[m]);
-
-  if (grafico) grafico.destroy();
-
-  grafico = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: meses.map((m) => m.split("-").reverse().join("/")), // mostra como mm/aaaa
-      datasets: [{
-        label: "Total de gastos (R$)",
-        data: valores,
-        backgroundColor: "#d63384",
-        borderRadius: 8,
-      }],
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true },
-      },
-    },
-  });
-}
-
-// Atualiza tela
-function atualizarTela(mesSelecionado = "") {
-  lista.innerHTML = "";
-  let total = 0;
-
-  const despesasFiltradas = mesSelecionado
-    ? despesas.filter((d) => d.mes === mesSelecionado)
-    : despesas;
-
-  despesasFiltradas.forEach((item) => {
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    span.textContent = `${item.descricao} - R$ ${item.valor.toFixed(2)} (${item.mes})`;
-
-    const btnEditar = document.createElement("button");
-    btnEditar.textContent = "Editar";
-    btnEditar.classList.add("btn-editar");
-    btnEditar.addEventListener("click", () => editarDespesa(item.id));
-
-    const btnExcluir = document.createElement("button");
-    btnExcluir.textContent = "Excluir";
-    btnExcluir.classList.add("btn-excluir");
-    btnExcluir.addEventListener("click", () => excluirDespesa(item.id));
-
-    li.appendChild(span);
-    li.appendChild(btnEditar);
-    li.appendChild(btnExcluir);
-    lista.appendChild(li);
-
-    total += item.valor;
-  });
-
-  totalSpan.textContent = total.toFixed(2);
-  atualizarGrafico();
-}
-
-// Salvar no localStorage
-function salvarDados() {
+function salvarLocal() {
   localStorage.setItem("despesas", JSON.stringify(despesas));
 }
 
-// Adicionar ou editar
-botaoAdicionar.addEventListener("click", () => {
+function atualizarLista() {
+  lista.innerHTML = "";
+  const mesSelecionado = filtroMesInput.value;
+  let totalMes = 0;
+
+  despesas
+    .filter((d) => !mesSelecionado || d.mes === mesSelecionado)
+    .forEach((d, i) => {
+      const li = document.createElement("li");
+      li.textContent = `${d.descricao} - R$ ${d.valor.toFixed(2)} (${d.mes})`;
+
+      const editarBtn = document.createElement("button");
+      editarBtn.textContent = "Editar";
+      editarBtn.style.backgroundColor = "#673ab7";
+      editarBtn.style.color = "white";
+      editarBtn.onclick = () => editarDespesa(i);
+
+      const excluirBtn = document.createElement("button");
+      excluirBtn.textContent = "Excluir";
+      excluirBtn.style.backgroundColor = "#f44336";
+      excluirBtn.style.color = "white";
+      excluirBtn.onclick = () => excluirDespesa(i);
+
+      li.appendChild(editarBtn);
+      li.appendChild(excluirBtn);
+      lista.appendChild(li);
+
+      totalMes += d.valor;
+    });
+
+  total.textContent = `Total: R$ ${totalMes.toFixed(2)}`;
+}
+
+function adicionarDespesa() {
   const descricao = descricaoInput.value.trim();
   const valor = parseFloat(valorInput.value);
   const mes = mesInput.value;
 
-  if (descricao === "" || isNaN(valor) || mes === "") {
-    alert("Por favor, preencha todos os campos corretamente!");
+  if (!descricao || isNaN(valor) || !mes) {
+    alert("Preencha todos os campos corretamente!");
     return;
   }
 
-  if (editandoId) {
-    const index = despesas.findIndex((d) => d.id === editandoId);
-    despesas[index] = { id: editandoId, descricao, valor, mes };
-    editandoId = null;
-    botaoAdicionar.textContent = "Adicionar";
-  } else {
-    const novaDespesa = { id: Date.now(), descricao, valor, mes };
-    despesas.push(novaDespesa);
-  }
-
-  salvarDados();
-  atualizarTela(filtroMesInput.value);
-
+  despesas.push({ descricao, valor, mes });
+  salvarLocal();
+  atualizarLista();
   descricaoInput.value = "";
   valorInput.value = "";
   mesInput.value = "";
-});
-
-// Editar
-function editarDespesa(id) {
-  const despesa = despesas.find((d) => d.id === id);
-  descricaoInput.value = despesa.descricao;
-  valorInput.value = despesa.valor;
-  mesInput.value = despesa.mes;
-  editandoId = id;
-  botaoAdicionar.textContent = "Salvar";
 }
 
-// Excluir
-function excluirDespesa(id) {
-  if (confirm("Deseja realmente excluir esta despesa?")) {
-    despesas = despesas.filter((d) => d.id !== id);
-    salvarDados();
-    atualizarTela(filtroMesInput.value);
+function excluirDespesa(i) {
+  despesas.splice(i, 1);
+  salvarLocal();
+  atualizarLista();
+}
+
+function editarDespesa(i) {
+  const novaDescricao = prompt("Nova descrição:", despesas[i].descricao);
+  const novoValor = parseFloat(prompt("Novo valor:", despesas[i].valor));
+
+  if (novaDescricao && !isNaN(novoValor)) {
+    despesas[i].descricao = novaDescricao;
+    despesas[i].valor = novoValor;
+    salvarLocal();
+    atualizarLista();
   }
 }
 
-// Filtro por mês
-filtroMesInput.addEventListener("change", () => {
-  atualizarTela(filtroMesInput.value);
-});
+botaoAdicionar.onclick = adicionarDespesa;
+filtroMesInput.onchange = atualizarLista;
 
-// Carregar ao abrir
-atualizarTela();
-
-// Registrar o Service Worker para o app funcionar offline
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker registrado com sucesso!"))
-    .catch(error => console.log("Falha ao registrar o Service Worker:", error));
-}
+atualizarLista();

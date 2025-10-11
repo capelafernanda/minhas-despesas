@@ -13,14 +13,7 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       console.log("Cacheando arquivos...");
-      return Promise.all(
-        URLS_TO_CACHE.map(url =>
-          fetch(url).then(response => {
-            if (!response.ok) throw new Error(`Erro ao buscar: ${url}`);
-            return cache.put(url, response);
-          })
-        )
-      );
+      return cache.addAll(URLS_TO_CACHE);
     })
   );
 });
