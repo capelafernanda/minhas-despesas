@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minhas Despesas</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Minhas Despesas</h1>
+
+  <div class="card">
+    <input type="text" id="descricao" placeholder="Descrição" />
+    <input type="number" id="valor" placeholder="Valor (R$)" />
+    <input type="month" id="mes" />
+    <button id="adicionar">Adicionar</button>
+  </div>
+
+  <h3>Filtrar por mês:</h3>
+  <input type="month" id="filtroMes" />
+
+  <ul id="lista"></ul>
+  <h2>Total: R$ <span id="total">0.00</span></h2>
+
+  <div class="grafico-container">
+    <h3>Gastos por mês</h3>
+    <canvas id="grafico"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
