@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Elementos do DOM
   const descricaoInput = document.getElementById("descricao");
   const valorInput = document.getElementById("valor");
   const mesInput = document.getElementById("mes");
@@ -8,23 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const lista = document.getElementById("lista");
   const total = document.getElementById("total");
 
-  // Canvas do gráfico
   const canvas = document.getElementById("meuGrafico");
   if (!canvas) {
     console.error("Canvas 'meuGrafico' não encontrado!");
     return;
   }
   const ctx = canvas.getContext("2d");
+  ctx.font = "12px Arial";
+  ctx.textAlign = "center";
 
-  // Array de despesas
   let despesas = JSON.parse(localStorage.getItem("despesas")) || [];
 
-  // Salvar no localStorage
   function salvarLocal() {
     localStorage.setItem("despesas", JSON.stringify(despesas));
   }
 
-  // Atualiza lista, total e gráfico
   function atualizarLista() {
     lista.innerHTML = "";
     const mesSelecionado = filtroMesInput.value;
@@ -60,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarGrafico(mesSelecionado);
   }
 
-  // Adicionar despesa
   function adicionarDespesa() {
     const descricao = descricaoInput.value.trim();
     const valor = parseFloat(valorInput.value);
@@ -80,14 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
     mesInput.value = "";
   }
 
-  // Excluir despesa
   function excluirDespesa(i) {
     despesas.splice(i, 1);
     salvarLocal();
     atualizarLista();
   }
 
-  // Editar despesa
   function editarDespesa(i) {
     const novaDescricao = prompt("Nova descrição:", despesas[i].descricao);
     const novoValor = parseFloat(prompt("Novo valor:", despesas[i].valor));
@@ -100,10 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Atualizar gráfico
   function atualizarGrafico(mesSelecionado) {
     const despesasFiltradas = despesas.filter(d => !mesSelecionado || d.mes === mesSelecionado);
-
     const labels = despesasFiltradas.map(d => d.descricao);
     const valores = despesasFiltradas.map(d => d.valor);
 
@@ -120,15 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "#ff66b3";
       ctx.fillRect(i * (larguraBarra + espacamento), 160 - altura, larguraBarra, altura);
       ctx.fillStyle = "#000";
-      ctx.fillText(labels[i], i * (larguraBarra + espacamento), 175);
-      ctx.fillText(`R$${v.toFixed(2)}`, i * (larguraBarra + espacamento), 150 - altura);
+      ctx.fillText(labels[i], i * (larguraBarra + espacamento) + larguraBarra / 2, 175);
+      ctx.fillText(`R$${v.toFixed(2)}`, i * (larguraBarra + espacamento) + larguraBarra / 2, 150 - altura);
     });
   }
 
-  // Eventos
   botaoAdicionar.onclick = adicionarDespesa;
   filtroMesInput.onchange = atualizarLista;
 
-  // Inicializa lista e gráfico
   atualizarLista();
 });

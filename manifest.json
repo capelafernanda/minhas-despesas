@@ -1,10 +1,13 @@
 {
   "name": "Minhas Despesas",
   "short_name": "Despesas",
+  "id": "/minhas-despesas-pwa",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff66b3",
+  "description": "Controle suas despesas mensais de forma rápida e prática, com gráfico visual e filtragem por mês.",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -14,6 +17,18 @@
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/screenshot1.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/screenshot2.png",
+      "sizes": "540x720",
       "type": "image/png"
     }
   ]
