@@ -1,26 +1,22 @@
-# Minhas Despesas
+## Aplicativo de Controle de Gastos Pessoais (PWA)
 
-Aplicativo PWA para controle de despesas pessoais.  
-Permite adicionar, editar e visualizar suas despesas de forma simples, organizada e offline.
+Aplicativo desenvolvido como **Progressive Web App (PWA)** para controle de despesas pessoais, permitindo adicionar, editar e visualizar gastos de forma simples, organizada e eficiente.
 
----
+### Funcionalidades
+- Cadastro de despesas com descrição, valor e mês
+- Visualização de todas as despesas registradas
+- Funcionamento **offline** por meio de Service Worker
+- Instalação como aplicativo na tela inicial (PWA)
 
-## 🔹 Funcionalidades
+### Tecnologias Utilizadas
+- HTML5
+- CSS3
+- JavaScript
+- Service Worker
+- Manifest.json
 
-- Adicionar despesas com descrição, valor e mês.  
-- Visualizar todas as despesas cadastradas.  
-- Funciona offline graças ao **Service Worker**.  
-- Pode ser instalado na tela inicial como um app nativo (PWA).  
-
----
-
-## 🔹 Tecnologias
-
-- HTML5  
-- CSS3  
-- JavaScript  
-- Service Worker (para funcionamento offline)  
-- Manifest.json (para transformar em PWA)  
+### Status do Projeto
+Projeto funcional, atendendo aos requisitos mínimos para publicação na **Play Store**, em evolução contínua para melhorias de interface e novas funcionalidades.
 
 ---
 
