@@ -8,7 +8,7 @@ Aplicativo desenvolvido como **Progressive Web App (PWA)** para controle de desp
 - Funcionamento **offline** por meio de Service Worker
 - Instalação como aplicativo na tela inicial (PWA)
 
-### Tecnologias Utilizadas
+### tecnologia:
 - HTML5 para estruturação da aplicação
 - CSS3 para estilização da interface
 - JavaScript para lógica e manipulação dos dados
