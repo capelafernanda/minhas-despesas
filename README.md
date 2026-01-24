@@ -9,11 +9,11 @@ Aplicativo desenvolvido como **Progressive Web App (PWA)** para controle de desp
 - Instalação como aplicativo na tela inicial (PWA)
 
 ### Tecnologias Utilizadas
-- HTML5
-- CSS3
-- JavaScript
-- Service Worker
-- Manifest.json
+- HTML5 para estruturação da aplicação
+- CSS3 para estilização da interface
+- JavaScript para lógica e manipulação dos dados
+- Service Worker para funcionamento offline
+- Manifest.json para configuração do Progressive Web App (PWA)
 
 ### Status do Projeto
 Projeto funcional, atendendo aos requisitos mínimos para publicação na **Play Store**, em evolução contínua para melhorias de interface e novas funcionalidades.
