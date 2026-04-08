@@ -6,15 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const botaoAdicionar = document.getElementById("adicionar");
   const lista = document.getElementById("lista");
   const total = document.getElementById("total");
-
   const canvas = document.getElementById("meuGrafico");
-  if (!canvas) {
-    console.error("Canvas 'meuGrafico' não encontrado!");
-    return;
-  }
   const ctx = canvas.getContext("2d");
-  ctx.font = "12px Arial";
-  ctx.textAlign = "center";
 
   let despesas = JSON.parse(localStorage.getItem("despesas")) || [];
 
@@ -28,22 +21,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalMes = 0;
 
     despesas
+      .map((d, index) => ({ ...d, index }))
       .filter(d => !mesSelecionado || d.mes === mesSelecionado)
-      .forEach((d, i) => {
+      .forEach(d => {
         const li = document.createElement("li");
         li.textContent = `${d.descricao} - R$ ${d.valor.toFixed(2)} (${d.mes})`;
 
         const editarBtn = document.createElement("button");
         editarBtn.textContent = "Editar";
-        editarBtn.style.backgroundColor = "#673ab7";
-        editarBtn.style.color = "white";
-        editarBtn.onclick = () => editarDespesa(i);
+        editarBtn.style.backgroundColor = "#6b7280";
 
         const excluirBtn = document.createElement("button");
         excluirBtn.textContent = "Excluir";
-        excluirBtn.style.backgroundColor = "#f44336";
-        excluirBtn.style.color = "white";
-        excluirBtn.onclick = () => excluirDespesa(i);
+        excluirBtn.style.backgroundColor = "#dc2626";
+
+        editarBtn.onclick = () => editarDespesa(d.index);
+        excluirBtn.onclick = () => excluirDespesa(d.index);
 
         li.appendChild(editarBtn);
         li.appendChild(excluirBtn);
@@ -63,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mes = mesInput.value;
 
     if (!descricao || isNaN(valor) || !mes) {
-      alert("Preencha todos os campos corretamente!");
+      alert("Preencha todos os campos!");
       return;
     }
 
@@ -96,24 +89,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function atualizarGrafico(mesSelecionado) {
     const despesasFiltradas = despesas.filter(d => !mesSelecionado || d.mes === mesSelecionado);
-    const labels = despesasFiltradas.map(d => d.descricao);
+
     const valores = despesasFiltradas.map(d => d.valor);
+    const labels = despesasFiltradas.map(d => d.descricao);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (valores.length === 0) return;
 
-    const larguraBarra = 40;
-    const espacamento = 20;
-    const maxAltura = Math.max(...valores, 100);
+    const larguraBarra = canvas.width / valores.length - 10;
+    const max = Math.max(...valores);
 
     valores.forEach((v, i) => {
-      const altura = (v / maxAltura) * 150;
-      ctx.fillStyle = "#ff66b3";
-      ctx.fillRect(i * (larguraBarra + espacamento), 160 - altura, larguraBarra, altura);
+      const altura = (v / max) * 150;
+
+      ctx.fillStyle = "#16a34a";
+      ctx.fillRect(i * (larguraBarra + 10), 160 - altura, larguraBarra, altura);
+
       ctx.fillStyle = "#000";
-      ctx.fillText(labels[i], i * (larguraBarra + espacamento) + larguraBarra / 2, 175);
-      ctx.fillText(`R$${v.toFixed(2)}`, i * (larguraBarra + espacamento) + larguraBarra / 2, 150 - altura);
+      ctx.fillText(labels[i], i * (larguraBarra + 10) + larguraBarra / 2, 180);
     });
   }
 

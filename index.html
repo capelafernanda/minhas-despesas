@@ -4,17 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minhas Despesas</title>
+
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Ícones -->
-  <link rel="icon" type="image/png" href="icons/icon-192.png" />
-
-  <!-- Manifest -->
+  <link rel="icon" href="icons/icon-192.png" />
   <link rel="manifest" href="manifest.json" />
 
-  <meta name="theme-color" content="#ff66b3" />
+  <meta name="theme-color" content="#16a34a" />
 </head>
 <body>
+
   <h1>Minhas Despesas</h1>
 
   <div class="card">
@@ -32,18 +30,18 @@
   <h2 id="total"></h2>
 
   <h3>Gráfico de Despesas</h3>
-  <canvas id="meuGrafico" width="400" height="200"></canvas>
+  <canvas id="meuGrafico"></canvas>
 
-  <!-- Script -->
   <script src="script.js" defer></script>
 
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("service-worker.js")
-        .then(() => console.log("Service Worker registrado com sucesso!"))
-        .catch((error) => console.log("Erro ao registrar Service Worker:", error));
+        .then(() => console.log("Service Worker registrado!"))
+        .catch((error) => console.log("Erro:", error));
     }
   </script>
+
 </body>
 </html>
